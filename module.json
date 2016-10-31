@@ -1,0 +1,19 @@
+{
+    "description": "Driver for the TSL2561 Light Intensity sensor",
+    "class_name": "TSL2561",
+    "header_file": "openag_ds18b20.h",
+    "outputs": {
+        "Light_Intensity": {
+            "type": "std_msgs/Float32"
+        }
+    },
+    "arguments": [
+        {
+            "name": "pin",
+            "type": "int"
+        }
+    ],
+    "dependencies": [
+        {"type": "git", "url": "https://github.com/OpenAgInitiative/openag_firmware_module.git"},
+    ]
+}
