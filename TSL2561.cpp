@@ -2,6 +2,19 @@
 #include <Arduino.h>
 #include <Wire.h>
 
+void Tsl2561::begin(){
+  Wire.begin();
+  writeRegister(TSL2561_Address,TSL2561_Control,0x03);  // POWER UP
+  writeRegister(TSL2561_Address,TSL2561_Timing,0x00);  //No High Gain (1x), integration time of 13ms
+  writeRegister(TSL2561_Address,TSL2561_Interrupt,0x00);
+  writeRegister(TSL2561_Address,TSL2561_Control,0x00);  // POWER Down
+  calibrtion_to_vernier_lux_ = 0.78;
+  calibration_to_vernier_par_ = 0.02;
+  measuring_indoor_par_correction_ = 0.86; //reduction by 14%
+  read_register_timeout_ = 5; // milliseconds
+  _time_of_last_reading = 0;
+}
+
 uint8_t Tsl2561::readRegister(int deviceAddress, int address)
 {
   uint8_t value;
@@ -29,51 +42,22 @@ void Tsl2561::writeRegister(int deviceAddress, int address, uint8_t val)
   //delay(100);
 }
 
-void Tsl2561::begin(){
-  Wire.begin();
-  writeRegister(TSL2561_Address,TSL2561_Control,0x03);  // POWER UP
-  writeRegister(TSL2561_Address,TSL2561_Timing,0x00);  //No High Gain (1x), integration time of 13ms
-  writeRegister(TSL2561_Address,TSL2561_Interrupt,0x00);
-  writeRegister(TSL2561_Address,TSL2561_Control,0x00);  // POWER Down
-  calibrtion_to_vernier_lux_ = 0.78;
-  calibration_to_vernier_par_ = 0.02;
-  measuring_indoor_par_correction_ = 0.86; //reduction by 14%
-  read_register_timeout_ = 5; // milliseconds
-}
+
 
 void Tsl2561::update() {
   if (millis() - _time_of_last_reading > _min_update_interval) {
-    getData();
-    _time_of_last_reading = millis();
+    readSensorData();
+   _time_of_last_reading = millis();
   }
 }
 
-void Tsl2561::getLux(void)
-{
-  CH0_LOW=readRegister(TSL2561_Address,TSL2561_Channal0L);
-  CH0_HIGH=readRegister(TSL2561_Address,TSL2561_Channal0H);
-  //read two bytes from registers 0x0E and 0x0F
-  CH1_LOW=readRegister(TSL2561_Address,TSL2561_Channal1L);
-  CH1_HIGH=readRegister(TSL2561_Address,TSL2561_Channal1H);
-
-  ch0 = (CH0_HIGH<<8) | CH0_LOW;
-  ch1 = (CH1_HIGH<<8) | CH1_LOW;
-}
-
-bool Tsl2561::get_light_intensity(std_msgs::Float32 &msg) {
-  msg.data = _light_intensity;
-  bool res = _send_light_intensity;
-  _send_light_intensity = false;
-  return res;
-}
-
-signed long Tsl2561::readVisibleLux()
+signed long Tsl2561::readSensorData()
 {
    writeRegister(TSL2561_Address,TSL2561_Control,0x03);  // POWER UP
    delay(14);
    getLux();
-
    writeRegister(TSL2561_Address,TSL2561_Control,0x00);  // POWER Down
+  
    if(ch1 == 0)
    { 
      return 0;
@@ -149,8 +133,26 @@ channel1 = (ch1 * chScale) >> CH_SCALE;
   if(temp<0) temp=0;
   temp+=(1<<(LUX_SCALE-1));
   // strip off fractional portion
-  lux=temp>>LUX_SCALE;
-  return (lux);
+  _light_intensity = temp>>LUX_SCALE;
+  return (_light_intensity);
  }
 }
 
+bool Tsl2561::get_light_intensity(std_msgs::Float32 &msg) {
+  msg.data = _light_intensity;
+  bool res = _send_light_intensity;
+  _send_light_intensity = false;
+  return res;
+}
+
+void Tsl2561::getLux(void)
+{
+  CH0_LOW=readRegister(TSL2561_Address,TSL2561_Channal0L);
+  CH0_HIGH=readRegister(TSL2561_Address,TSL2561_Channal0H);
+  //read two bytes from registers 0x0E and 0x0F
+  CH1_LOW=readRegister(TSL2561_Address,TSL2561_Channal1L);
+  CH1_HIGH=readRegister(TSL2561_Address,TSL2561_Channal1H);
+
+  ch0 = (CH0_HIGH<<8) | CH0_LOW;
+  ch1 = (CH1_HIGH<<8) | CH1_LOW;
+}
