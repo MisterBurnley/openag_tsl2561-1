@@ -53,6 +53,14 @@ void Tsl2561::update() {
   }
 }
 
+bool Tsl2561::get_light_intensity(std_msgs::Float32 &msg) {
+  msg.data = _light_intensity;
+  bool res = _send_light_intensity;
+  _send_light_intensity = false;
+  return res;
+}
+
+//.............................................. Private ..........................................//
 signed long Tsl2561::readSensorData()
 {
    writeRegister(TSL2561_Address,TSL2561_Control,0x03);  // POWER UP
@@ -156,11 +164,4 @@ channel1 = (ch1 * chScale) >> CH_SCALE;
   _light_intensity = temp>>LUX_SCALE;
   return (_light_intensity);
  }
-}
-
-bool Tsl2561::get_light_intensity(std_msgs::Float32 &msg) {
-  msg.data = _light_intensity;
-  bool res = _send_light_intensity;
-  _send_light_intensity = false;
-  return res;
 }
