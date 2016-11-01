@@ -59,7 +59,7 @@ bool Tsl2561::get_light_intensity(std_msgs::Float32 &msg) {
 }
 
 //.............................................. Private ..........................................//
-signed long Tsl2561::readSensorData()
+void Tsl2561::readSensorData()
 {
    writeRegister(TSL2561_Address,TSL2561_Control,0x03);  // POWER UP
    delay(14);
