@@ -30,7 +30,7 @@ uint8_t Tsl2561::readRegister(int deviceAddress, int address)
   }
   value = Wire.read();
   return value;
-  _time_of_last_query = millis();
+  // _time_of_last_query = millis();
 }
 
 void Tsl2561::writeRegister(int deviceAddress, int address, uint8_t val)
