@@ -1,12 +1,7 @@
 {
-    "header_file": "openag_tsl2561.h",
+    "description": "Digital Light Sensor",
     "class_name": "Tsl2561",
-    "arguments": [
-        {
-            "name": "pin",
-            "type": "int"
-        }
-    ],
+    "header_file": "openag_tsl2561.h",
     "outputs": {
         "light_intensity": {
             "type": "std_msgs/Float32"
