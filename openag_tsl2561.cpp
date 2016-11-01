@@ -63,6 +63,10 @@ signed long Tsl2561::readSensorData()
 {
    writeRegister(TSL2561_Address,TSL2561_Control,0x03);  // POWER UP
    delay(14);
+   float lux_average = 0;
+   float samples = 40;
+   int i;
+   fot (i=0; i<samples; i++){
    getLux();  
    if(ch1 == 0)
    { 
@@ -73,9 +77,9 @@ signed long Tsl2561::readSensorData()
      return -1;  //ch0 out of range, but ch1 not. the lux is not valid in this situation.
    }
    return calculateLux(0, 0, 0);  //T package, no gain, 13ms
-  
    // from Sensor_tsl2561, Should I add it??
    lux_average += (float) calculateLux(0, 0, 0);
+   }
    lux_average /= samples;
    lux_ = lux_average*calibrtion_to_vernier_lux_;
    par_ = lux_average*calibration_to_vernier_par_*measuring_indoor_par_correction_;
