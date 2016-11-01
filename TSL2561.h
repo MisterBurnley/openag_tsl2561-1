@@ -1,10 +1,15 @@
+// Added from dht22 example
 #ifndef OPENAG_TSL2561_H
 #define OPENAG_TSL2561_H
 
+// Added from orignal code
 #include <Arduino.h>
+
+// Added from dht22 example 
 #include <openag_module.h>
 #include <std_msgs/Float32.h>
 
+// Added from the original code
 #define  TSL2561_Control  0x80
 #define  TSL2561_Timing   0x81
 #define  TSL2561_Interrupt 0x86
@@ -72,23 +77,29 @@
 #define B8C 0x0000   // 0.000 * 2^LUX_SCALE
 #define M8C 0x0000   // 0.000 * 2^LUX_SCALE
 
-class TSL2561
+class Tsl2561
 {
   public:
+  // Added from the original code
   unsigned long calculateLux(unsigned int iGain, unsigned int tInt,int iType);
   void getLux(void);
   void init(void);
-  signed long readVisibleLux();
+  //signed long readVisibleLux();
   uint8_t readRegister(int deviceAddress, int address);
   void writeRegister(int deviceAddress, int address, uint8_t val);
-
+  
+  // Added from dht22 example
   void begin();
   void update();
   bool get_light_intensity(std_msgs::Float32 &msg);
-  void getData();
+  //void getData();
   bool readSensor();
   
+  //
+  signed long readSensorData();
+  
   private:
+  // Added from the original code
   uint8_t CH0_LOW,CH0_HIGH,CH1_LOW,CH1_HIGH;
   uint16_t ch0,ch1;
   unsigned long chScale;
@@ -98,15 +109,27 @@ class TSL2561
   unsigned int b;
   unsigned int m;
   unsigned long temp;
-  unsigned long lux;
+  // unsigned long lux;
   
-
+ // Added from sensor_tsl2561
+  String lux_instruction_code_;
+  int lux_instruction_id_;
+  String par_instruction_code_;
+  int par_instruction_id_;
+  float calibrtion_to_vernier_lux_;
+  float calibration_to_vernier_par_;
+  float measuring_indoor_par_correction_; //reduction by 14%
+  uint32_t read_register_timeout_;
+  bool read_register_error_;
+  
+  // Added from dht22 example
   float _light_intensity;
   bool _send_light_intensity;
   uint32_t _time_of_last_query;
   bool _waiting_for_conversion;
   const static uint32_t _min_update_interval = 2000;
+  
 };
-
+// From the original code
 //extern TSL2561_CalculateLux  TSL2561;
 #endif
