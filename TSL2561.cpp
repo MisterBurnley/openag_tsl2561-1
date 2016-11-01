@@ -3,11 +3,13 @@
 #include <Wire.h>
 
 void Tsl2561::begin(){
+  // from original code
   Wire.begin();
   writeRegister(TSL2561_Address,TSL2561_Control,0x03);  // POWER UP
   writeRegister(TSL2561_Address,TSL2561_Timing,0x00);  //No High Gain (1x), integration time of 13ms
   writeRegister(TSL2561_Address,TSL2561_Interrupt,0x00);
   writeRegister(TSL2561_Address,TSL2561_Control,0x00);  // POWER Down
+  // from dht22 example & sensor_tsl2561
   calibrtion_to_vernier_lux_ = 0.78;
   calibration_to_vernier_par_ = 0.02;
   measuring_indoor_par_correction_ = 0.86; //reduction by 14%
@@ -67,6 +69,24 @@ signed long Tsl2561::readSensorData()
      return -1;  //ch0 out of range, but ch1 not. the lux is not valid in this situation.
    }
    return calculateLux(0, 0, 0);  //T package, no gain, 13ms
+  
+   // from Sensor_tsl2561, Should I add it??
+   // lux_average += (float) calculateLux(0, 0, 0);
+   // lux_average /= samples;
+   // lux_ = lux_average*calibrtion_to_vernier_lux_;
+   // par_ = lux_average*calibration_to_vernier_par_*measuring_indoor_par_correction_;
+}
+
+void Tsl2561::getLux(void)
+{
+  CH0_LOW=readRegister(TSL2561_Address,TSL2561_Channal0L);
+  CH0_HIGH=readRegister(TSL2561_Address,TSL2561_Channal0H);
+  //read two bytes from registers 0x0E and 0x0F
+  CH1_LOW=readRegister(TSL2561_Address,TSL2561_Channal1L);
+  CH1_HIGH=readRegister(TSL2561_Address,TSL2561_Channal1H);
+
+  ch0 = (CH0_HIGH<<8) | CH0_LOW;
+  ch1 = (CH1_HIGH<<8) | CH1_LOW;
 }
 
 unsigned long Tsl2561::calculateLux(unsigned int iGain, unsigned int tInt,int iType)
@@ -143,16 +163,4 @@ bool Tsl2561::get_light_intensity(std_msgs::Float32 &msg) {
   bool res = _send_light_intensity;
   _send_light_intensity = false;
   return res;
-}
-
-void Tsl2561::getLux(void)
-{
-  CH0_LOW=readRegister(TSL2561_Address,TSL2561_Channal0L);
-  CH0_HIGH=readRegister(TSL2561_Address,TSL2561_Channal0H);
-  //read two bytes from registers 0x0E and 0x0F
-  CH1_LOW=readRegister(TSL2561_Address,TSL2561_Channal1L);
-  CH1_HIGH=readRegister(TSL2561_Address,TSL2561_Channal1H);
-
-  ch0 = (CH0_HIGH<<8) | CH0_LOW;
-  ch1 = (CH1_HIGH<<8) | CH1_LOW;
 }
