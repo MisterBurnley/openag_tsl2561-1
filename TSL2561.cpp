@@ -2,7 +2,7 @@
 #include <Arduino.h>
 #include <Wire.h>
 
-uint8_t TSL2561::readRegister(int deviceAddress, int address)
+uint8_t Tsl2561::readRegister(int deviceAddress, int address)
 {
   uint8_t value;
   Wire.beginTransmission(deviceAddress);
@@ -20,7 +20,7 @@ uint8_t TSL2561::readRegister(int deviceAddress, int address)
   _time_of_last_query = millis();
 }
 
-void TSL2561::writeRegister(int deviceAddress, int address, uint8_t val)
+void Tsl2561::writeRegister(int deviceAddress, int address, uint8_t val)
 {
   Wire.beginTransmission(deviceAddress);  // start transmission to device
   Wire.write(address);                    // send register address
@@ -29,7 +29,7 @@ void TSL2561::writeRegister(int deviceAddress, int address, uint8_t val)
   //delay(100);
 }
 
-void TSL2561::begin(){
+void Tsl2561::begin(){
   Wire.begin();
   writeRegister(TSL2561_Address,TSL2561_Control,0x03);  // POWER UP
   writeRegister(TSL2561_Address,TSL2561_Timing,0x00);  //No High Gain (1x), integration time of 13ms
@@ -48,7 +48,7 @@ void Tsl2561::update() {
   }
 }
 
-void TSL2561::getLux(void)
+void Tsl2561::getLux(void)
 {
   CH0_LOW=readRegister(TSL2561_Address,TSL2561_Channal0L);
   CH0_HIGH=readRegister(TSL2561_Address,TSL2561_Channal0H);
@@ -60,14 +60,14 @@ void TSL2561::getLux(void)
   ch1 = (CH1_HIGH<<8) | CH1_LOW;
 }
 
-bool TSL2561::get_light_intensity(std_msgs::Float32 &msg) {
+bool Tsl2561::get_light_intensity(std_msgs::Float32 &msg) {
   msg.data = _light_intensity;
   bool res = _send_light_intensity;
   _send_light_intensity = false;
   return res;
 }
 
-signed long TSL2561::readVisibleLux()
+signed long Tsl2561::readVisibleLux()
 {
    writeRegister(TSL2561_Address,TSL2561_Control,0x03);  // POWER UP
    delay(14);
@@ -85,7 +85,7 @@ signed long TSL2561::readVisibleLux()
    return calculateLux(0, 0, 0);  //T package, no gain, 13ms
 }
 
-unsigned long TSL2561::calculateLux(unsigned int iGain, unsigned int tInt,int iType)
+unsigned long Tsl2561::calculateLux(unsigned int iGain, unsigned int tInt,int iType)
 {
  switch (tInt)
  {
