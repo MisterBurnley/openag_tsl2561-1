@@ -88,7 +88,7 @@ class Tsl2561: public Module {
   
   // Added from dht22 example
   void begin();
-  bool get_light_intensity(std_msgs::Float32 &msg);
+  bool get_light_illuminance(std_msgs::Float32 &msg);
   void update();
   
   // form tsl2561_Sensor
