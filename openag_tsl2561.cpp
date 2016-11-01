@@ -1,6 +1,4 @@
 #include "openag_tsl2561.h"
-#include <Arduino.h>
-#include <Wire.h>
 
 void Tsl2561::begin(){
   // from original code
