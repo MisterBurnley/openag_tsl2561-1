@@ -66,7 +66,7 @@ signed long Tsl2561::readSensorData()
    float lux_average = 0;
    float samples = 40;
    int i;
-   fot (i=0; i<samples; i++){
+   for (i=0; i<samples; i++){
    getLux();  
    if(ch1 == 0)
    { 
