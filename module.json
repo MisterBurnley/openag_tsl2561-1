@@ -3,7 +3,7 @@
     "class_name": "Tsl2561",
     "header_file": "openag_tsl2561.h",
     "outputs": {
-        "light_intensity": {
+        "light_illuminance": {
             "type": "std_msgs/Float32"
         }
     },
