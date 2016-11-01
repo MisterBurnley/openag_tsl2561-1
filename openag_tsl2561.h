@@ -132,8 +132,8 @@ class Tsl2561: public Module {
   bool read_register_error_;
   
   // Added from dht22 example
-  float _light_intensity;
-  bool _send_light_intensity;
+  float _light_illuminance;
+  bool _send_light_illuminance;
   uint32_t _time_of_last_query;
   bool _waiting_for_conversion;
   const static uint32_t _min_update_interval = 2000;
