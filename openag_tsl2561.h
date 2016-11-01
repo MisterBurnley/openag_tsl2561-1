@@ -4,6 +4,7 @@
 
 // Added from orignal code
 #include <Arduino.h>
+#include <Wire.h>
 
 // Added from dht22 example 
 #include <openag_module.h>
