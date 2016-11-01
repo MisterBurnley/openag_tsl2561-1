@@ -81,24 +81,29 @@ class Tsl2561
 {
   public:
   // Added from the original code
-  unsigned long calculateLux(unsigned int iGain, unsigned int tInt,int iType);
-  void getLux(void);
   // void init(void);
   // signed long readVisibleLux();
   uint8_t readRegister(int deviceAddress, int address);
   void writeRegister(int deviceAddress, int address, uint8_t val);
+  //
+  signed long readSensorData();
   
+  // form tsl2561_Sensor
+  int lux_; // lux
+  float par_; // (umol)*(m^-2)*(s^-1)
+  
+  
+  private:
   // Added from dht22 example
   void begin();
+  void getLux(void);
+  unsigned long calculateLux(unsigned int iGain, unsigned int tInt,int iType);
   // void update();
   bool get_light_intensity(std_msgs::Float32 &msg);
   // void getData();
   bool readSensor();
   
-  //
-  signed long readSensorData();
   
-  private:
   // Added from the original code
   uint8_t CH0_LOW,CH0_HIGH,CH1_LOW,CH1_HIGH;
   uint16_t ch0,ch1;
