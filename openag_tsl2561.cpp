@@ -75,7 +75,7 @@ void Tsl2561::readSensorData()
      }
      if(ch0/ch1 < 2 && ch0 > 4900)
      {
-       lux_ = -
+       lux_ = -1;
          return;  //ch0 out of range, but ch1 not. the lux is not valid in this situation.
      }
      // return calculateLux(0, 0, 0);  //T package, no gain, 13ms
@@ -167,4 +167,3 @@ channel1 = (ch1 * chScale) >> CH_SCALE;
   _light_intensity = temp>>LUX_SCALE;
   return (_light_intensity);
  }
-}
