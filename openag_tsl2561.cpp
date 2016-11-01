@@ -57,9 +57,7 @@ signed long Tsl2561::readSensorData()
 {
    writeRegister(TSL2561_Address,TSL2561_Control,0x03);  // POWER UP
    delay(14);
-   getLux();
-   writeRegister(TSL2561_Address,TSL2561_Control,0x00);  // POWER Down
-  
+   getLux();  
    if(ch1 == 0)
    { 
      return 0;
@@ -71,10 +69,12 @@ signed long Tsl2561::readSensorData()
    return calculateLux(0, 0, 0);  //T package, no gain, 13ms
   
    // from Sensor_tsl2561, Should I add it??
-   // lux_average += (float) calculateLux(0, 0, 0);
-   // lux_average /= samples;
-   // lux_ = lux_average*calibrtion_to_vernier_lux_;
-   // par_ = lux_average*calibration_to_vernier_par_*measuring_indoor_par_correction_;
+   lux_average += (float) calculateLux(0, 0, 0);
+   lux_average /= samples;
+   lux_ = lux_average*calibrtion_to_vernier_lux_;
+   par_ = lux_average*calibration_to_vernier_par_*measuring_indoor_par_correction_;
+   writeRegister(TSL2561_Address,TSL2561_Control,0x00);  // POWER Down
+
 }
 
 void Tsl2561::getLux(void)
