@@ -85,23 +85,27 @@ class Tsl2561
   // signed long readVisibleLux();
   uint8_t readRegister(int deviceAddress, int address);
   void writeRegister(int deviceAddress, int address, uint8_t val);
-  //
-  signed long readSensorData();
+  
+  // Added from dht22 example
+  void begin();
+  bool get_light_intensity(std_msgs::Float32 &msg);
+  void update();
   
   // form tsl2561_Sensor
   int lux_; // lux
   float par_; // (umol)*(m^-2)*(s^-1)
-  
+
   
   private:
   // Added from dht22 example
-  void begin();
   void getLux(void);
   unsigned long calculateLux(unsigned int iGain, unsigned int tInt,int iType);
   // void update();
-  bool get_light_intensity(std_msgs::Float32 &msg);
   // void getData();
-  bool readSensor();
+  // bool readSensor();
+  
+  //
+  signed long readSensorData();
   
   
   // Added from the original code
