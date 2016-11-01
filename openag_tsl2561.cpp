@@ -51,10 +51,10 @@ void Tsl2561::update() {
   }
 }
 
-bool Tsl2561::get_light_intensity(std_msgs::Float32 &msg) {
-  msg.data = _light_intensity;
-  bool res = _send_light_intensity;
-  _send_light_intensity = false;
+bool Tsl2561::get_light_illuminance(std_msgs::Float32 &msg) {
+  msg.data = _light_illuminance;
+  bool res = light_illuminance;
+  _sendlight_illuminance = false;
   return res;
 }
 
