@@ -1,10 +1,10 @@
 {
-    "name": "TSL2561",
-    "keywords": ", TSL2561",
-    "description": "OpenAg driver for the TSL2561 Digital Light Intensity sensor",
+    "name": "openag_tsl2561",
+    "keywords": "openag, tsl2561",
+    "description": "OpenAg driver for the TSL2561 Light Intensity Sensor",
     "repository": {
         "type": "git",
-        "url": "https://github.com/KhalladB/TSL2561t"
+        "url": "https://github.com/KhalladB/openag_tsl2561"
     },
     "frameworks": "arduino",
     "platforms": "*",
