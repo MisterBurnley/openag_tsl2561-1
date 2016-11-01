@@ -1,4 +1,4 @@
-//#include "openag_tsl2561.h"
+#include "openag_tsl2561.h"
 #include <Arduino.h>
 #include <Wire.h>
 
