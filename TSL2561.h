@@ -83,16 +83,16 @@ class Tsl2561
   // Added from the original code
   unsigned long calculateLux(unsigned int iGain, unsigned int tInt,int iType);
   void getLux(void);
-  void init(void);
-  //signed long readVisibleLux();
+  // void init(void);
+  // signed long readVisibleLux();
   uint8_t readRegister(int deviceAddress, int address);
   void writeRegister(int deviceAddress, int address, uint8_t val);
   
   // Added from dht22 example
   void begin();
-  void update();
+  // void update();
   bool get_light_intensity(std_msgs::Float32 &msg);
-  //void getData();
+  // void getData();
   bool readSensor();
   
   //
