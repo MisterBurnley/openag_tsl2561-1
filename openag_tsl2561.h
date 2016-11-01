@@ -105,7 +105,7 @@ class Tsl2561: public Module {
   // bool readSensor();
   
   //
-  signed long readSensorData();
+  void readSensorData();
   
   
   // Added from the original code
