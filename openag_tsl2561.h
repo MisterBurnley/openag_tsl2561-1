@@ -77,8 +77,7 @@
 #define B8C 0x0000   // 0.000 * 2^LUX_SCALE
 #define M8C 0x0000   // 0.000 * 2^LUX_SCALE
 
-class Tsl2561
-{
+class Tsl2561: public Module {
   public:
   // Added from the original code
   // void init(void);
