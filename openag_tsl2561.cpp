@@ -12,7 +12,7 @@ void Tsl2561::begin(){
   calibration_to_vernier_par_ = 0.02;
   measuring_indoor_par_correction_ = 0.86; //reduction by 14%
   read_register_timeout_ = 5; // milliseconds
-  _time_of_last_reading = 0;
+  _time_of_last_query = 0;
 }
 
 uint8_t Tsl2561::readRegister(int deviceAddress, int address)
@@ -45,9 +45,9 @@ void Tsl2561::writeRegister(int deviceAddress, int address, uint8_t val)
 
 
 void Tsl2561::update() {
-  if (millis() - _time_of_last_reading > _min_update_interval) {
+  if (millis() - _time_of_last_query > _min_update_interval) {
     readSensorData();
-   _time_of_last_reading = millis();
+   _time_of_last_query = millis();
   }
 }
 
