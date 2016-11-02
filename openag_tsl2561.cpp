@@ -3,9 +3,6 @@
 Tdl2561::Tsl2561(int TSL2561_Address) {
   status_level = OK;
   status_msg = "";
-  _send_water_electrical_conductivity = false;
-  _time_of_last_query = 0;
-  _waiting_for_response = false;
   _TSL2561_Address = TSL2561_Address;
 }
 
