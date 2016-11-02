@@ -23,8 +23,6 @@ void Tsl2561::begin(){
 
 void Tsl2561::update() {
   if (millis() - _time_of_last_query > _min_update_interval) {
-          Serial2.print("Hi");
-
     readSensorData();
    _time_of_last_query = millis();
   }
@@ -64,6 +62,7 @@ void Tsl2561::readSensorData()
    }
   lux_average /= samples;
   lux_ = lux_average*calibrtion_to_vernier_lux_;
+  Serial2.println(lux_);
   par_ = lux_average*calibration_to_vernier_par_*measuring_indoor_par_correction_;
   writeRegister(_TSL2561_Address,TSL2561_Control,0x00);  // POWER Down
 }
