@@ -22,32 +22,6 @@ void Tsl2561::update() {
   }
 }
 
-uint8_t Tsl2561::readRegister(int deviceAddress, int address)
-{
-  uint8_t value;
-  Wire.beginTransmission(deviceAddress);
-  Wire.write(address);                // register to read
-  Wire.endTransmission();
-  Wire.requestFrom(deviceAddress, 1); // read a byte
-  uint32_t start_time = millis();
-  while(!Wire.available());
-  if (millis() - start_time > read_register_timeout_) {
-    read_register_error_ = 1;
-    return 0;
-  }
-  value = Wire.read();
-  return value;
-  // _time_of_last_query = millis();
-}
-
-void Tsl2561::writeRegister(int deviceAddress, int address, uint8_t val)
-{
-  Wire.beginTransmission(deviceAddress);  // start transmission to device
-  Wire.write(address);                    // send register address
-  Wire.write(val);                        // send value to write
-  Wire.endTransmission();                 // end transmission
-  //delay(100);
-}
 
 bool Tsl2561::get_light_illuminance(std_msgs::Float32 &msg) {
   msg.data = _light_illuminance;
@@ -84,6 +58,33 @@ void Tsl2561::readSensorData()
   lux_ = lux_average*calibrtion_to_vernier_lux_;
   par_ = lux_average*calibration_to_vernier_par_*measuring_indoor_par_correction_;
   writeRegister(TSL2561_Address,TSL2561_Control,0x00);  // POWER Down
+}
+
+uint8_t Tsl2561::readRegister(int deviceAddress, int address)
+{
+  uint8_t value;
+  Wire.beginTransmission(deviceAddress);
+  Wire.write(address);                // register to read
+  Wire.endTransmission();
+  Wire.requestFrom(deviceAddress, 1); // read a byte
+  uint32_t start_time = millis();
+  while(!Wire.available());
+  if (millis() - start_time > read_register_timeout_) {
+    read_register_error_ = 1;
+    return 0;
+  }
+  value = Wire.read();
+  return value;
+  // _time_of_last_query = millis();
+}
+
+void Tsl2561::writeRegister(int deviceAddress, int address, uint8_t val)
+{
+  Wire.beginTransmission(deviceAddress);  // start transmission to device
+  Wire.write(address);                    // send register address
+  Wire.write(val);                        // send value to write
+  Wire.endTransmission();                 // end transmission
+  //delay(100);
 }
 
 void Tsl2561::getLux(void)
