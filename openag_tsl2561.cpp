@@ -39,21 +39,22 @@ bool Tsl2561::get_light_illuminance(std_msgs::Float32 &msg) {
 //.............................................. Private ..........................................//
 void Tsl2561::readSensorData()
 {
-   writeRegister(_TSL2561_Address,TSL2561_Control,0x03);  // POWER UP
-   delay(14);
-   float lux_average = 0;
-   float samples = 40;
-   int i;
-   for (i=0; i<samples; i++){
-     Serial2.print("Hi");
-     getLux();  
-     if(ch1 == 0)
-     { 
-       lux_ = 0;
-       return;
-       Serial2.print(lux_);
-       Serial2.print(" ");
-
+  writeRegister(_TSL2561_Address,TSL2561_Control,0x03);  // POWER UP
+  delay(14);
+  float lux_average = 0;
+  float samples = 40;
+  int i;
+  Serial2.println(ch1);
+  Serial2.println(ch0);
+  Serial2.println(ch0/ch1);
+  for (i=0; i<samples; i++){
+    getLux();  
+    if(ch1 == 0)
+    { 
+      lux_ = 0;
+      return;
+      Serial2.print(lux_);
+      Serial2.print(" ");
      }
      if(ch0/ch1 < 2 && ch0 > 4900)
      {
