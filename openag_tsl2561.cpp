@@ -48,19 +48,23 @@ void Tsl2561::readSensorData()
   //Serial2.println(ch0);
   //Serial2.println(ch0/ch1);
   for (i=0; i<samples; i++){
-    getLux();  
-     if(ch0/ch1 < 2 && ch0 > 4900)
-     {
-       lux_ = -1;
-       //Serial2.print(lux_);
+    getLux();
+    if(ch1 == 0)
+    { 
+     return 0;
+    }
+    if(ch0/ch1 < 2 && ch0 > 4900)
+    {
+      lux_ = -1;
+      //Serial2.print(lux_);
       // Serial2.print(" ");
-       return;  //ch0 out of range, but ch1 not. the lux is not valid in this situation.
-     }
-     // return calculateLux(0, 0, 0);  //T package, no gain, 13ms
-     // from Sensor_tsl2561, Should I add it??
-     lux_average += (float) calculateLux(0, 0, 0);
+      return;  //ch0 out of range, but ch1 not. the lux is not valid in this situation.
+    }
+    // return calculateLux(0, 0, 0);  //T package, no gain, 13ms
+    // from Sensor_tsl2561, Should I add it??
+    lux_average += (float) calculateLux(0, 0, 0);
     // Serial2.println(lux_average);
-   }
+  }
   lux_average /= samples;
   lux_ = lux_average*calibrtion_to_vernier_lux_;
   par_ = lux_average*calibration_to_vernier_par_*measuring_indoor_par_correction_;
