@@ -40,6 +40,8 @@ bool Tsl2561::get_light_illuminance(std_msgs::Float32 &msg) {
 void Tsl2561::readSensorData()
 {
    writeRegister(_TSL2561_Address,TSL2561_Control,0x03);  // POWER UP
+   Serial2.println(_TSL2561_Address);
+   Serial2.println(TSL2561_Control);
    delay(14);
    float lux_average = 0;
    float samples = 40;
@@ -97,9 +99,7 @@ void Tsl2561::writeRegister(int deviceAddress, int address, uint8_t val)
 void Tsl2561::getLux(void)
 {
   CH0_LOW=readRegister(_TSL2561_Address,TSL2561_Channal0L);
-  Serial2.println(CH0_LOW);
   CH0_HIGH=readRegister(_TSL2561_Address,TSL2561_Channal0H);
-  Serial2.println(CH0_HIGH);
   //read two bytes from registers 0x0E and 0x0F
   CH1_LOW=readRegister(_TSL2561_Address,TSL2561_Channal1L);
   CH1_HIGH=readRegister(_TSL2561_Address,TSL2561_Channal1H);
