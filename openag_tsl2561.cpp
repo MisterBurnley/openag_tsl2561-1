@@ -40,8 +40,6 @@ bool Tsl2561::get_light_illuminance(std_msgs::Float32 &msg) {
 void Tsl2561::readSensorData()
 {
    writeRegister(_TSL2561_Address,TSL2561_Control,0x03);  // POWER UP
-   Serial2.println(_TSL2561_Address);
-   Serial2.println(TSL2561_Control);
    delay(14);
    float lux_average = 0;
    float samples = 40;
@@ -52,15 +50,21 @@ void Tsl2561::readSensorData()
      { 
        lux_ = 0;
        return;
+       Serial2.print(lux_);
+       Serial2.print(" ");
+
      }
      if(ch0/ch1 < 2 && ch0 > 4900)
      {
        lux_ = -1;
-         return;  //ch0 out of range, but ch1 not. the lux is not valid in this situation.
+       Serial2.print(lux_);
+       Serial2.print(" ");
+       return;  //ch0 out of range, but ch1 not. the lux is not valid in this situation.
      }
      // return calculateLux(0, 0, 0);  //T package, no gain, 13ms
      // from Sensor_tsl2561, Should I add it??
      lux_average += (float) calculateLux(0, 0, 0);
+     Serial2.println(lux_average);
    }
   lux_average /= samples;
   lux_ = lux_average*calibrtion_to_vernier_lux_;
