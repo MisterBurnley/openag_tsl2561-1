@@ -7,6 +7,7 @@ Tsl2561::Tsl2561(int _TSL2561_Address) {
 
 void Tsl2561::begin(){
   // from original code
+  Serial2.begin(9600);
   Wire.begin();
   writeRegister(_TSL2561_Address,TSL2561_Control,0x03);  // POWER UP
   writeRegister(_TSL2561_Address,TSL2561_Timing,0x00);  //No High Gain (1x), integration time of 13ms
@@ -170,5 +171,6 @@ channel1 = (ch1 * chScale) >> CH_SCALE;
   temp+=(1<<(LUX_SCALE-1));
   // strip off fractional portion
   _light_illuminance = temp>>LUX_SCALE;
+  Serial2.println( _light_illuminance);
   return (_light_illuminance);
  }
