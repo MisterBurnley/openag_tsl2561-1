@@ -103,7 +103,7 @@ void Tsl2561::getLux(void)
 {
   CH0_LOW=readRegister(_TSL2561_Address,TSL2561_Channal0L);
   CH0_HIGH=readRegister(_TSL2561_Address,TSL2561_Channal0H);
-  //Serial2.print(CH0_LOW);
+  Serial2.print(CH0_LOW);
   //Serial2.print(" ");
   //Serial2.println(CH0_HIGH);
   
