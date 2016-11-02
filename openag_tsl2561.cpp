@@ -15,6 +15,13 @@ void Tsl2561::begin(){
   _time_of_last_query = 0;
 }
 
+void Tsl2561::update() {
+  if (millis() - _time_of_last_query > _min_update_interval) {
+    readSensorData();
+   _time_of_last_query = millis();
+  }
+}
+
 uint8_t Tsl2561::readRegister(int deviceAddress, int address)
 {
   uint8_t value;
@@ -40,15 +47,6 @@ void Tsl2561::writeRegister(int deviceAddress, int address, uint8_t val)
   Wire.write(val);                        // send value to write
   Wire.endTransmission();                 // end transmission
   //delay(100);
-}
-
-
-
-void Tsl2561::update() {
-  if (millis() - _time_of_last_query > _min_update_interval) {
-    readSensorData();
-   _time_of_last_query = millis();
-  }
 }
 
 bool Tsl2561::get_light_illuminance(std_msgs::Float32 &msg) {
