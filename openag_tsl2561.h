@@ -83,8 +83,8 @@ class Tsl2561: public Module {
   // Added from the original code
   // void init(void);
   // signed long readVisibleLux();
-  uint8_t readRegister(int deviceAddress, int address);
-  void writeRegister(int deviceAddress, int address, uint8_t val);
+  // uint8_t readRegister(int deviceAddress, int address);
+  // void writeRegister(int deviceAddress, int address, uint8_t val);
   
   // Added from dht22 example
   void begin();
@@ -103,6 +103,8 @@ class Tsl2561: public Module {
   // void update();
   // void getData();
   // bool readSensor();
+  uint8_t readRegister(int deviceAddress, int address);
+  void writeRegister(int deviceAddress, int address, uint8_t val);
   
   //
   void readSensorData();
