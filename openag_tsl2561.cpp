@@ -45,6 +45,7 @@ void Tsl2561::readSensorData()
    float samples = 40;
    int i;
    for (i=0; i<samples; i++){
+     Serial2.print("Hi");
      getLux();  
      if(ch1 == 0)
      { 
