@@ -4,7 +4,7 @@
     "description": "Digital Light Sensor",
     "repository": {
         "type": "git",
-        "url": "https://github.com/KhalladB/openag_tsl2561"
+        "url": "https://github.com/KhalladB/openag_tsl2561.git"
     },
     "frameworks": "arduino",
     "platforms": "*",
