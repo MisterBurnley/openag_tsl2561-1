@@ -173,5 +173,6 @@ channel1 = (ch1 * chScale) >> CH_SCALE;
   // strip off fractional portion
   _light_illuminance = temp>>LUX_SCALE;
   Serial2.println( _light_illuminance);
+  Serial2.println("Test");
   return (_light_illuminance);
  }
