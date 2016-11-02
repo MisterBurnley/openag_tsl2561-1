@@ -49,13 +49,6 @@ void Tsl2561::readSensorData()
   Serial2.println(ch0/ch1);
   for (i=0; i<samples; i++){
     getLux();  
-    if(ch1 == 0)
-    { 
-      lux_ = 0;
-      return;
-      Serial2.print(lux_);
-      Serial2.print(" ");
-     }
      if(ch0/ch1 < 2 && ch0 > 4900)
      {
        lux_ = -1;
@@ -106,12 +99,22 @@ void Tsl2561::getLux(void)
 {
   CH0_LOW=readRegister(_TSL2561_Address,TSL2561_Channal0L);
   CH0_HIGH=readRegister(_TSL2561_Address,TSL2561_Channal0H);
+  Serial2.print(CH0_LOW);
+  Serial2.print(" ");
+  Serial2.println(CH0_HIGH);
+  
   //read two bytes from registers 0x0E and 0x0F
   CH1_LOW=readRegister(_TSL2561_Address,TSL2561_Channal1L);
   CH1_HIGH=readRegister(_TSL2561_Address,TSL2561_Channal1H);
-
+  Serial2.print(CH1_LOW);
+  Serial2.print(" ");
+  Serial2.println(CH1_HIGH);
+  
   ch0 = (CH0_HIGH<<8) | CH0_LOW;
   ch1 = (CH1_HIGH<<8) | CH1_LOW;
+  Serial2.print(ch0);
+  Serial2.print(" ");
+  Serial2.println(ch1);  
 }
 
 unsigned long Tsl2561::calculateLux(unsigned int iGain, unsigned int tInt,int iType)
