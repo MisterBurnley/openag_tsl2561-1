@@ -1,9 +1,8 @@
 #include "openag_tsl2561.h"
 
-Tsl2561::Tsl2561(int TSL2561_Address) {
+Tsl2561::Tsl2561(int _TSL2561_Address) {
   status_level = OK;
   status_msg = "";
-  _TSL2561_Address = TSL2561_Address;
 }
 
 void Tsl2561::begin(){
