@@ -87,6 +87,7 @@ class Tsl2561: public Module {
   // void writeRegister(int deviceAddress, int address, uint8_t val);
   
   // Added from dht22 example
+  Tsl2561(int TSL2561_Address);
   void begin();
   bool get_light_illuminance(std_msgs::Float32 &msg);
   void update();
