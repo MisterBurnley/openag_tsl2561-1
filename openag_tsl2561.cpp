@@ -45,10 +45,10 @@ void Tsl2561::readSensorData()
   int i;
   for (i=0; i<samples; i++){
     getLux();
-    if(ch1 == 0)
-    { 
-     return;
-    }
+    //if(ch1 == 0)
+    //{ 
+     //return;
+    //}
     if(ch0/ch1 < 2 && ch0 > 4900)
     {
       lux_ = -1;
