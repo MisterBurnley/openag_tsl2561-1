@@ -7,7 +7,6 @@ Tsl2561::Tsl2561(int _TSL2561_Address) {
 
 void Tsl2561::begin(){
   // from original code
-  Serial2.begin(9600);
   Wire.begin();
   writeRegister(_TSL2561_Address,TSL2561_Control,0x03);  // POWER UP
   writeRegister(_TSL2561_Address,TSL2561_Timing,0x00);  //No High Gain (1x), integration time of 13ms
@@ -103,22 +102,13 @@ void Tsl2561::getLux(void)
 {
   CH0_LOW=readRegister(_TSL2561_Address,TSL2561_Channal0L);
   CH0_HIGH=readRegister(_TSL2561_Address,TSL2561_Channal0H);
-  Serial2.print(CH0_LOW);
-  Serial2.print(" ");
-  Serial2.println(CH0_HIGH);
   
   //read two bytes from registers 0x0E and 0x0F
   CH1_LOW=readRegister(_TSL2561_Address,TSL2561_Channal1L);
   CH1_HIGH=readRegister(_TSL2561_Address,TSL2561_Channal1H);
-  Serial2.print(CH1_LOW);
-  Serial2.print(" ");
-  Serial2.println(CH1_HIGH);
   
   ch0 = (CH0_HIGH<<8) | CH0_LOW;
   ch1 = (CH1_HIGH<<8) | CH1_LOW;
-  Serial2.print(ch0);
-  Serial2.print(" ");
-  Serial2.println(ch1);  
 }
 
 unsigned long Tsl2561::calculateLux(unsigned int iGain, unsigned int tInt,int iType)
@@ -186,7 +176,5 @@ channel1 = (ch1 * chScale) >> CH_SCALE;
   temp+=(1<<(LUX_SCALE-1));
   // strip off fractional portion
   _light_illuminance = temp>>LUX_SCALE;
-  Serial2.println( _light_illuminance);
-  Serial2.println("Test");
   return (_light_illuminance);
  }
