@@ -24,6 +24,7 @@ void Tsl2561::update() {
   if (millis() - _time_of_last_query > _min_update_interval) {
     readSensorData();
    _time_of_last_query = millis();
+    Serial2.println("HI TSL");
   }
 }
 
