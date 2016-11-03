@@ -101,9 +101,6 @@ class Tsl2561: public Module {
   // Added from dht22 example
   void getLux(void);
   unsigned long calculateLux(unsigned int iGain, unsigned int tInt,int iType);
-  // void update();
-  // void getData();
-  // bool readSensor();
   uint8_t readRegister(int deviceAddress, int address);
   void writeRegister(int deviceAddress, int address, uint8_t val);
   
@@ -143,6 +140,4 @@ class Tsl2561: public Module {
   int _TSL2561_Address = TSL2561_Address;
   
 };
-// From the original code
-//extern TSL2561_CalculateLux  TSL2561;
 #endif
