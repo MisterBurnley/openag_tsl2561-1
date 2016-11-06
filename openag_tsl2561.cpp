@@ -166,6 +166,7 @@ channel1 = (ch1 * chScale) >> CH_SCALE;
   if(temp<0) temp=0;
   temp+=(1<<(LUX_SCALE-1));
   // strip off fractional portion
+  _send_light_illuminance = true;
   _light_illuminance = temp>>LUX_SCALE;
   return (_light_illuminance);
  }
