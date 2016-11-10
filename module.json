@@ -7,7 +7,7 @@
             "name": "TSL2561_Address",
             "type": "int",
             "default": 29
-        }
+        },
     "outputs": {
         "light_illuminance": {
             "type": "std_msgs/Float32"
