@@ -87,7 +87,7 @@ class Tsl2561: public Module {
   // void writeRegister(int deviceAddress, int address, uint8_t val);
   
   // Added from dht22 example
-  Tsl2561(int _TSL2561_Address);
+  Tsl2561(int i2c_Address);
   void begin();
   bool get_light_illuminance(std_msgs::Float32 &msg);
   void update();
@@ -137,7 +137,7 @@ class Tsl2561: public Module {
   uint32_t _time_of_last_query;
   bool _waiting_for_conversion;
   const static uint32_t _min_update_interval = 2500;
-  int _TSL2561_Address = TSL2561_Address;
+  int i2c_Address;
   
 };
 #endif
