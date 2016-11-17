@@ -183,6 +183,7 @@ channel1 = (ch1 * chScale) >> CH_SCALE;
   avrg_lux = temp>>LUX_SCALE;
   return avrg_lux;
  }
+}
 
 uint8_t Tsl2561::readRegister(int deviceAddress, int address)
 {
