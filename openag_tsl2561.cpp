@@ -71,7 +71,7 @@ bool Tsl2561::get_light_illuminance(std_msgs::Float32 &msg) {
 }
 
 //.............................................. Private ..........................................//
-float Tsl2561::readSensorData()
+void Tsl2561::readSensorData()
 {
   Serial3.println("readSensorData");
   writeRegister(_i2c_address,TSL2561_Control,0x03);  // POWER UP
@@ -88,7 +88,7 @@ float Tsl2561::readSensorData()
     if(ch0/ch1 < 2 && ch0 > 4900)
     {
       lux_ = -1;
-      return 0;  //ch0 out of range, but ch1 not. the lux is not valid in this situation.
+      return;  //ch0 out of range, but ch1 not. the lux is not valid in this situation.
     }
     lux_average += (float) calculateLux(0, 0, 0);
   }
@@ -97,7 +97,6 @@ float Tsl2561::readSensorData()
   par_ = lux_average*calibration_to_vernier_par_*measuring_indoor_par_correction_;
   _send_light_illuminance = true;
   lux_ = _light_illuminance;
-  return _light_illuminance;
   Serial3.println(_light_illuminance);
   writeRegister(_i2c_address,TSL2561_Control,0x00);  // POWER Down
 }
@@ -181,8 +180,8 @@ channel1 = (ch1 * chScale) >> CH_SCALE;
   if(temp<0) temp=0;
   temp+=(1<<(LUX_SCALE-1));
   // strip off fractional portion
-  lux = temp>>LUX_SCALE;
-  return lux;
+  avrg_lux = temp>>LUX_SCALE;
+  return avrg_lux;
  }
 
 uint8_t Tsl2561::readRegister(int deviceAddress, int address)
@@ -194,12 +193,12 @@ uint8_t Tsl2561::readRegister(int deviceAddress, int address)
   Wire.endTransmission();
   Wire.requestFrom(deviceAddress, 1); // read a byte
   uint32_t start_time = millis();
-  //while(!Wire.available()){
+  while(!Wire.available()){
     if (millis() - start_time > read_register_timeout_) {
       read_register_error_ = 1;
       return 0;
     }
-  //}
+  }
   value = Wire.read();
   return value;
 }
