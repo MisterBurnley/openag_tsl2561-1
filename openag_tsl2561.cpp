@@ -94,7 +94,11 @@ void Tsl2561::readSensorData()
     Serial3.println(lux_average);
   }
   lux_average /= samples;
+  Serial3.print(lux_average);
+  Serial3.print(' ');
   lux_ = lux_average*calibrtion_to_vernier_lux_;
+  Serial3.print(lux_);
+  Serial3.print(' ');
   par_ = lux_average*calibration_to_vernier_par_*measuring_indoor_par_correction_;
   _send_light_illuminance = true;
   lux_ = _light_illuminance;
