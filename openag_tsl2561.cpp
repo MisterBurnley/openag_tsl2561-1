@@ -31,18 +31,19 @@
 
 #include "openag_tsl2561.h"
 
-Tsl2561::Tsl2561(int _TSL2561_Address) {
-  status_level = OK;
+Tsl2561::Tsl2561(int i2c_Address) {
+  _i2c_Address = i2c_Address;
+  tatus_level = OK;
   status_msg = "";
 }
 
 void Tsl2561::begin(){
   // from original code
   Wire.begin();
-  writeRegister(_TSL2561_Address,TSL2561_Control,0x03);  // POWER UP
-  writeRegister(_TSL2561_Address,TSL2561_Timing,0x00);  //No High Gain (1x), integration time of 13ms
-  writeRegister(_TSL2561_Address,TSL2561_Interrupt,0x00);
-  writeRegister(_TSL2561_Address,TSL2561_Control,0x00);  // POWER Down
+  writeRegister(_i2c_Address,TSL2561_Control,0x03);  // POWER UP
+  writeRegister(_i2c_Address,TSL2561_Timing,0x00);  //No High Gain (1x), integration time of 13ms
+  writeRegister(_i2c_Address,TSL2561_Interrupt,0x00);
+  writeRegister(_i2c_Address,TSL2561_Control,0x00);  // POWER Down
   // from dht22 example & sensor_tsl2561
   calibrtion_to_vernier_lux_ = 0.78;
   calibration_to_vernier_par_ = 0.02;
@@ -69,7 +70,7 @@ bool Tsl2561::get_light_illuminance(std_msgs::Float32 &msg) {
 //.............................................. Private ..........................................//
 void Tsl2561::readSensorData()
 {
-  writeRegister(_TSL2561_Address,TSL2561_Control,0x03);  // POWER UP
+  writeRegister(_i2c_Address,TSL2561_Control,0x03);  // POWER UP
   delay(14);
   float lux_average = 0;
   float samples = 40;
@@ -90,7 +91,7 @@ void Tsl2561::readSensorData()
   lux_average /= samples;
   lux_ = lux_average*calibrtion_to_vernier_lux_;
   par_ = lux_average*calibration_to_vernier_par_*measuring_indoor_par_correction_;
-  writeRegister(_TSL2561_Address,TSL2561_Control,0x00);  // POWER Down
+  writeRegister(_i2c_Address,TSL2561_Control,0x00);  // POWER Down
 }
 
 uint8_t Tsl2561::readRegister(int deviceAddress, int address)
@@ -122,12 +123,12 @@ void Tsl2561::writeRegister(int deviceAddress, int address, uint8_t val)
 
 void Tsl2561::getLux(void)
 {
-  CH0_LOW=readRegister(_TSL2561_Address,TSL2561_Channal0L);
-  CH0_HIGH=readRegister(_TSL2561_Address,TSL2561_Channal0H);
+  CH0_LOW=readRegister(i2c_Address,TSL2561_Channal0L);
+  CH0_HIGH=readRegister(i2c_Address,TSL2561_Channal0H);
   
   //read two bytes from registers 0x0E and 0x0F
-  CH1_LOW=readRegister(_TSL2561_Address,TSL2561_Channal1L);
-  CH1_HIGH=readRegister(_TSL2561_Address,TSL2561_Channal1H);
+  CH1_LOW=readRegister(_i2c_Addresss,TSL2561_Channal1L);
+  CH1_HIGH=readRegister(_i2c_Address,TSL2561_Channal1H);
   
   ch0 = (CH0_HIGH<<8) | CH0_LOW;
   ch1 = (CH1_HIGH<<8) | CH1_LOW;
