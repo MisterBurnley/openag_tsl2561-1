@@ -181,6 +181,7 @@ channel1 = (ch1 * chScale) >> CH_SCALE;
   temp+=(1<<(LUX_SCALE-1));
   // strip off fractional portion
   unsigned long lux = temp>>LUX_SCALE;
+  Serial3.print(lux);
   return lux;
 }
 
