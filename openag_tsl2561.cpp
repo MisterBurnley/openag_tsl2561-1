@@ -88,7 +88,7 @@ float Tsl2561::readSensorData(void)
     if(ch0/ch1 < 2 && ch0 > 4900)
     {
       lux_ = -1;
-      return;  //ch0 out of range, but ch1 not. the lux is not valid in this situation.
+      return 0;  //ch0 out of range, but ch1 not. the lux is not valid in this situation.
     }
     lux_average += (float) calculateLux(0, 0, 0);
     Serial3.println(lux_average);
