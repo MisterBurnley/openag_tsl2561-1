@@ -55,7 +55,7 @@ void Tsl2561::begin(){
 }
 
 void Tsl2561::update() {
-  Serial3.ptintln("update");
+  Serial3.println("update");
   if (millis() - _time_of_last_query > _min_update_interval) {
     readSensorData();
    _time_of_last_query = millis();
