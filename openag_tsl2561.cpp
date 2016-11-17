@@ -58,6 +58,7 @@ void Tsl2561::update() {
   if (millis() - _time_of_last_query > _min_update_interval) {
     Serial3.println("update");
     readSensorData();
+    getReading();
    _time_of_last_query = millis();
   }
 }
@@ -100,12 +101,17 @@ void Tsl2561::readSensorData()
   Serial3.print(lux_);
   Serial3.print(' ');
   par_ = lux_average*calibration_to_vernier_par_*measuring_indoor_par_correction_;
-  _send_light_illuminance = true;
-  _light_illuminance = lux_;
-  Serial3.println(_light_illuminance);
+  //_send_light_illuminance = true;
+  //_light_illuminance = lux_;
+  //Serial3.println(_light_illuminance);
   writeRegister(_i2c_address,TSL2561_Control,0x00);  // POWER Down
 }
 
+float Tsl2561::getReading(void){
+ _send_light_illuminance = true;
+  _light_illuminance = lux_;
+  Serial3.println(_light_illuminance);
+}
 void Tsl2561::getLux(void)
 {
   //Serial3.println("getLux");
