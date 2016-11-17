@@ -4,7 +4,7 @@
     "header_file": "openag_tsl2561.h",
     "arguments":[
         { 
-        "name": "TSL2561_address",
+        "name": "i2c_address",
         "type": "int",
         "default": 29
         }
