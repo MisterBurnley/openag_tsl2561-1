@@ -40,6 +40,7 @@ Tsl2561::Tsl2561(int i2c_address) {
 void Tsl2561::begin(){
   // from original code
   Serial3.begin(9600);
+  Serial3.println('Hi');
   Wire.begin();
   writeRegister(_i2c_address,TSL2561_Control,0x03);  // POWER UP
   writeRegister(_i2c_address,TSL2561_Timing,0x00);  //No High Gain (1x), integration time of 13ms
