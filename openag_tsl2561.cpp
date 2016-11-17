@@ -33,7 +33,7 @@
 
 Tsl2561::Tsl2561(int i2c_Address) {
   _i2c_Address = i2c_Address;
-  tatus_level = OK;
+  status_level = OK;
   status_msg = "";
 }
 
@@ -123,11 +123,11 @@ void Tsl2561::writeRegister(int deviceAddress, int address, uint8_t val)
 
 void Tsl2561::getLux(void)
 {
-  CH0_LOW=readRegister(i2c_Address,TSL2561_Channal0L);
-  CH0_HIGH=readRegister(i2c_Address,TSL2561_Channal0H);
+  CH0_LOW=readRegister(_i2c_Address,TSL2561_Channal0L);
+  CH0_HIGH=readRegister(_i2c_Address,TSL2561_Channal0H);
   
   //read two bytes from registers 0x0E and 0x0F
-  CH1_LOW=readRegister(_i2c_Addresss,TSL2561_Channal1L);
+  CH1_LOW=readRegister(_i2c_Address,TSL2561_Channal1L);
   CH1_HIGH=readRegister(_i2c_Address,TSL2561_Channal1H);
   
   ch0 = (CH0_HIGH<<8) | CH0_LOW;
