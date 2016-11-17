@@ -97,7 +97,7 @@ void Tsl2561::readSensorData()
   par_ = lux_average*calibration_to_vernier_par_*measuring_indoor_par_correction_;
   _send_light_illuminance = true;
   lux_ = _light_illuminance;
-  return (_light_illuminance);
+  return _light_illuminance;
   Serial3.println(_light_illuminance);
   writeRegister(_i2c_address,TSL2561_Control,0x00);  // POWER Down
 }
@@ -182,7 +182,7 @@ channel1 = (ch1 * chScale) >> CH_SCALE;
   temp+=(1<<(LUX_SCALE-1));
   // strip off fractional portion
   lux = temp>>LUX_SCALE;
-  return (lux);
+  return lux;
  }
 
 uint8_t Tsl2561::readRegister(int deviceAddress, int address)
