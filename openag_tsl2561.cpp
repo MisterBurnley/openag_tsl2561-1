@@ -55,6 +55,7 @@ void Tsl2561::begin(){
 }
 
 void Tsl2561::update() {
+  Serial3.ptintln("update");
   if (millis() - _time_of_last_query > _min_update_interval) {
     readSensorData();
    _time_of_last_query = millis();
@@ -72,6 +73,7 @@ bool Tsl2561::get_light_illuminance(std_msgs::Float32 &msg) {
 //.............................................. Private ..........................................//
 void Tsl2561::readSensorData()
 {
+  Serial3.print("readSensorData");
   writeRegister(_i2c_address,TSL2561_Control,0x03);  // POWER UP
   delay(14);
   float lux_average = 0;
@@ -98,6 +100,7 @@ void Tsl2561::readSensorData()
 
 uint8_t Tsl2561::readRegister(int deviceAddress, int address)
 {
+  Serial3.ptintln("readRegister");
   uint8_t value;
   Wire.beginTransmission(deviceAddress);
   Wire.write(address);                // register to read
@@ -116,6 +119,7 @@ uint8_t Tsl2561::readRegister(int deviceAddress, int address)
 
 void Tsl2561::writeRegister(int deviceAddress, int address, uint8_t val)
 {
+  Serial3.ptintln("writeRegister");
   Wire.beginTransmission(deviceAddress);  // start transmission to device
   Wire.write(address);                    // send register address
   Wire.write(val);                        // send value to write
@@ -125,6 +129,7 @@ void Tsl2561::writeRegister(int deviceAddress, int address, uint8_t val)
 
 void Tsl2561::getLux(void)
 {
+  Serial3.ptintln("getLux");
   CH0_LOW=readRegister(_i2c_address,TSL2561_Channal0L);
   CH0_HIGH=readRegister(_i2c_address,TSL2561_Channal0H);
   
@@ -138,6 +143,7 @@ void Tsl2561::getLux(void)
 
 unsigned long Tsl2561::calculateLux(unsigned int iGain, unsigned int tInt,int iType)
 {
+ Serial3.println("calculateLux");
  switch (tInt)
  {
   case 0:  // 13.7 msec
