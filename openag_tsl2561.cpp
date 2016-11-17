@@ -39,7 +39,7 @@ Tsl2561::Tsl2561(int i2c_address) {
 
 void Tsl2561::begin(){
   // from original code
-  Serial2.begin(9600);
+  Serial3.begin(9600);
   Wire.begin();
   writeRegister(_i2c_address,TSL2561_Control,0x03);  // POWER UP
   writeRegister(_i2c_address,TSL2561_Timing,0x00);  //No High Gain (1x), integration time of 13ms
@@ -203,5 +203,5 @@ channel1 = (ch1 * chScale) >> CH_SCALE;
   _light_illuminance = temp>>LUX_SCALE;
   return (_light_illuminance);
   
-  Serial2.println(_light_illuminance);
+  Serial3.println(_light_illuminance);
  }
