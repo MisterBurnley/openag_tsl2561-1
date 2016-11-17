@@ -129,7 +129,7 @@ unsigned long Tsl2561::calculateLux(unsigned int iGain, unsigned int tInt,int iT
   default: // assume no scaling
   chScale = (1 << CH_SCALE);
   break;
-}
+ }
 if (!iGain)  chScale = chScale << 4; // scale 1X to 16X
 // scale the channel values
 channel0 = (ch0 * chScale) >> CH_SCALE;
@@ -180,9 +180,8 @@ channel1 = (ch1 * chScale) >> CH_SCALE;
   if(temp<0) temp=0;
   temp+=(1<<(LUX_SCALE-1));
   // strip off fractional portion
-  avrg_lux = temp>>LUX_SCALE;
-  return avrg_lux;
- }
+  unsigned long lux = temp>>LUX_SCALE;
+  return lux;
 }
 
 uint8_t Tsl2561::readRegister(int deviceAddress, int address)
