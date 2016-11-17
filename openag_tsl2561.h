@@ -95,18 +95,18 @@ class Tsl2561: public Module {
   // form tsl2561_Sensor
   int lux_; // lux
   float par_; // (umol)*(m^-2)*(s^-1)
-
+  //unsigned long avrg_lux;
   
   private:
   // Added from dht22 example
-  void getLux(void);
+  void getLux();
   unsigned long calculateLux(unsigned int iGain, unsigned int tInt,int iType);
   uint8_t readRegister(int deviceAddress, int address);
   void writeRegister(int deviceAddress, int address, uint8_t val);
   
   //
-  void readSensorData();
-  
+  float readSensorData();
+  //float getReading();
   
   // Added from the original code
   uint8_t CH0_LOW,CH0_HIGH,CH1_LOW,CH1_HIGH;
@@ -118,7 +118,6 @@ class Tsl2561: public Module {
   unsigned int b;
   unsigned int m;
   unsigned long temp;
-  // unsigned long lux;
   
  // Added from sensor_tsl2561
   String lux_instruction_code_;
