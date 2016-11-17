@@ -101,7 +101,7 @@ void Tsl2561::readSensorData()
   Serial3.print(' ');
   par_ = lux_average*calibration_to_vernier_par_*measuring_indoor_par_correction_;
   _send_light_illuminance = true;
-  lux_ = _light_illuminance;
+  _light_illuminance = lux_;
   Serial3.println(_light_illuminance);
   writeRegister(_i2c_address,TSL2561_Control,0x00);  // POWER Down
 }
