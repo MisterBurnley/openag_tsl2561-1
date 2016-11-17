@@ -71,7 +71,7 @@ bool Tsl2561::get_light_illuminance(std_msgs::Float32 &msg) {
 }
 
 //.............................................. Private ..........................................//
-void Tsl2561::readSensorData()
+float Tsl2561::readSensorData(void)
 {
   Serial3.println("readSensorData");
   writeRegister(_i2c_address,TSL2561_Control,0x03);  // POWER UP
@@ -91,6 +91,7 @@ void Tsl2561::readSensorData()
       return;  //ch0 out of range, but ch1 not. the lux is not valid in this situation.
     }
     lux_average += (float) calculateLux(0, 0, 0);
+    Serial3.println(lux_average);
   }
   lux_average /= samples;
   lux_ = lux_average*calibrtion_to_vernier_lux_;
@@ -182,6 +183,7 @@ channel1 = (ch1 * chScale) >> CH_SCALE;
   // strip off fractional portion
   unsigned long lux = temp>>LUX_SCALE;
   Serial3.print(lux);
+  Serial3.print(' ');
   return lux;
 }
 
