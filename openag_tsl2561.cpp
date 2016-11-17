@@ -103,7 +103,7 @@ void Tsl2561::readSensorData()
 
 void Tsl2561::getLux(void)
 {
-  Serial3.println("getLux");
+  //Serial3.println("getLux");
   CH0_LOW=readRegister(_i2c_address,TSL2561_Channal0L);
   CH0_HIGH=readRegister(_i2c_address,TSL2561_Channal0H);
   
@@ -186,7 +186,7 @@ channel1 = (ch1 * chScale) >> CH_SCALE;
 
 uint8_t Tsl2561::readRegister(int deviceAddress, int address)
 {
-  Serial3.println("readRegister");
+  //Serial3.println("readRegister");
   uint8_t value;
   Wire.beginTransmission(deviceAddress);
   Wire.write(address);                // register to read
