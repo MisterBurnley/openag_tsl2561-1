@@ -71,7 +71,7 @@ bool Tsl2561::get_light_illuminance(std_msgs::Float32 &msg) {
 }
 
 //.............................................. Private ..........................................//
-float Tsl2561::readSensorData(void)
+void Tsl2561::readSensorData()
 {
   Serial3.println("readSensorData");
   writeRegister(_i2c_address,TSL2561_Control,0x03);  // POWER UP
