@@ -65,6 +65,7 @@ void Tsl2561::update() {
 
 bool Tsl2561::get_light_illuminance(std_msgs::Float32 &msg) {
   msg.data = _light_illuminance;
+  Serial3.println(_light_illuminance);
   bool res = _light_illuminance;
   _send_light_illuminance = false;
   return res;
@@ -73,7 +74,7 @@ bool Tsl2561::get_light_illuminance(std_msgs::Float32 &msg) {
 //.............................................. Private ..........................................//
 float Tsl2561::readSensorData(void)
 {
-  Serial3.println("readSensorData");
+  //Serial3.println("readSensorData");
   writeRegister(_i2c_address,TSL2561_Control,0x03);  // POWER UP
   delay(14);
   float lux_average = 0;
@@ -103,8 +104,8 @@ float Tsl2561::readSensorData(void)
   _send_light_illuminance = true;
   _light_illuminance = lux_;
   Serial3.println(_light_illuminance);
-  return (_light_illuminance);
   writeRegister(_i2c_address,TSL2561_Control,0x00);  // POWER Down
+  return (_light_illuminance);
 }
 
 void Tsl2561::getLux(void)
@@ -187,8 +188,8 @@ channel1 = (ch1 * chScale) >> CH_SCALE;
   temp+=(1<<(LUX_SCALE-1));
   // strip off fractional portion
   unsigned long lux = temp>>LUX_SCALE;
-  Serial3.print(lux);
-  Serial3.print(' ');
+  //Serial3.print(lux);
+  //Serial3.print(' ');
  return (lux);
 }
 
