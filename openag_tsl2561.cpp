@@ -39,8 +39,8 @@ Tsl2561::Tsl2561(int i2c_address) {
 
 void Tsl2561::begin(){
   // from original code
-  //Serial1.begin(9600);
-  //Serial1.println("Hi");
+  Serial.begin(9600);
+  Serial.println("Hi");
   Wire.begin();
   writeRegister(_i2c_address,TSL2561_Control,0x03);  // POWER UP
   writeRegister(_i2c_address,TSL2561_Timing,0x00);  //No High Gain (1x), integration time of 13ms
@@ -56,7 +56,7 @@ void Tsl2561::begin(){
 
 void Tsl2561::update() {
   if (millis() - _time_of_last_query > _min_update_interval) {
-    //Serial1.println("update");
+    Serial.println("update");
     readSensorData();
    _time_of_last_query = millis();
   }
@@ -65,7 +65,7 @@ void Tsl2561::update() {
 
 bool Tsl2561::get_light_illuminance(std_msgs::Float32 &msg) {
   msg.data = _light_illuminance;
-  //Serial1.println(_light_illuminance);
+  Serial.println(_light_illuminance);
   bool res = _light_illuminance;
   _send_light_illuminance = false;
   return res;
@@ -74,7 +74,7 @@ bool Tsl2561::get_light_illuminance(std_msgs::Float32 &msg) {
 //.............................................. Private ..........................................//
 float Tsl2561::readSensorData(void)
 {
-  //Serial1.println("readSensorData");
+  //Serial.println("readSensorData");
   writeRegister(_i2c_address,TSL2561_Control,0x03);  // POWER UP
   delay(14);
   float lux_average = 0;
@@ -92,18 +92,18 @@ float Tsl2561::readSensorData(void)
       return 0;  //ch0 out of range, but ch1 not. the lux is not valid in this situation.
     }
     lux_average += (float) calculateLux(0, 0, 0);
-    //Serial1.println(lux_average);
+    //Serial.println(lux_average);
   }
   lux_average /= samples;
-  //Serial1.print(lux_average);
-  //Serial1.print(' ');
+  Serial.print(lux_average);
+  Serial.print(' ');
   lux_ = lux_average*calibrtion_to_vernier_lux_;
-  //Serial1.print(lux_);
-  //Serial1.print(' ');
+  Serial.print(lux_);
+  Serial.print(' ');
   par_ = lux_average*calibration_to_vernier_par_*measuring_indoor_par_correction_;
   _send_light_illuminance = true;
   _light_illuminance = lux_;
-  //Serial1.println(_light_illuminance);
+  Serial.println(_light_illuminance);
   writeRegister(_i2c_address,TSL2561_Control,0x00);  // POWER Down
   return (_light_illuminance);
 }
