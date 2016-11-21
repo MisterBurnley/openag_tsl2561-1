@@ -44,7 +44,7 @@ void Tsl2561::begin(){
   writeRegister(_TSL2561_Address,TSL2561_Interrupt,0x00);
   writeRegister(_TSL2561_Address,TSL2561_Control,0x00);  // POWER Down
   // from dht22 example & sensor_tsl2561
-  calibrtion_to_vernier_lux_ = 0.78;
+  calibration_to_vernier_lux_ = 0.78;
   calibration_to_vernier_par_ = 0.02;
   measuring_indoor_par_correction_ = 0.86; //reduction by 14%
   read_register_timeout_ = 5; // milliseconds
@@ -88,7 +88,7 @@ void Tsl2561::readSensorData()
     lux_average += (float) calculateLux(0, 0, 0);
   }
   lux_average /= samples;
-  lux_ = lux_average*calibrtion_to_vernier_lux_;
+  lux_ = lux_average*calibration_to_vernier_lux_;
   par_ = lux_average*calibration_to_vernier_par_*measuring_indoor_par_correction_;
   writeRegister(_TSL2561_Address,TSL2561_Control,0x00);  // POWER Down
 }
@@ -200,4 +200,5 @@ channel1 = (ch1 * chScale) >> CH_SCALE;
   _send_light_illuminance = true;
   _light_illuminance = temp>>LUX_SCALE;
   return (_light_illuminance);
+  delay(1000);
  }
