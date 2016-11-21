@@ -88,10 +88,14 @@ float Tsl2561::readSensorData(void)
     if(ch0/ch1 < 2 && ch0 > 4900)
     {
       lux_ = -1;
+      Serial.println("Error#2");
       return 0;  //ch0 out of range, but ch1 not. the lux is not valid in this situation.
     }
-    lux_average += (float) calculateLux(0, 0, 0);
-    //Serial.println(lux_average);
+    else
+    {
+      lux_average += (float) calculateLux(0, 0, 0);
+      //Serial.println(lux_average);
+    }
   }
   lux_average /= samples;
   Serial.print(lux_average);
@@ -103,8 +107,8 @@ float Tsl2561::readSensorData(void)
   _send_light_illuminance = true;
   _light_illuminance = lux_;
   Serial.println(_light_illuminance);
-  writeRegister(_i2c_address,TSL2561_Control,0x00);  // POWER Down
   return (_light_illuminance);
+  writeRegister(_i2c_address,TSL2561_Control,0x00);  // POWER Down
 }
 
 void Tsl2561::getLux(void)
@@ -204,6 +208,7 @@ uint8_t Tsl2561::readRegister(int deviceAddress, int address)
   while(!Wire.available()){
     if (millis() - start_time > read_register_timeout_) {
       read_register_error_ = 1;
+      Serial.println("Error");
       return 0;
     }
   }
