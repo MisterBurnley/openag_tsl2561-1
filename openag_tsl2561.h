@@ -8,7 +8,7 @@
 
 // Added from dht22 example 
 #include <openag_module.h>
-#include <std_msgs/Float32.h>
+#include <std_msgs/Int32.h>
 
 // Added from the original code
 #define  TSL2561_Control  0x80
@@ -89,7 +89,7 @@ class Tsl2561: public Module {
   // Added from dht22 example
   Tsl2561(int _TSL2561_Address);
   void begin();
-  bool get_light_illuminance(std_msgs::Float32 &msg);
+  bool get_light_illuminance(std_msgs::Int32 &msg);
   void update();
   
   // form tsl2561_Sensor
